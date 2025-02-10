@@ -8,7 +8,8 @@ import {DeployBasicNft} from "../script/DeployBasicNft.s.sol";
 import {DevOpsTools} from "lib/foundry-devops/src/DevOpsTools.sol";
 
 contract MintBasicNft is Script {
-    string public constant PUG = "ipfs://QmRgekUSD5sVUmiVqCSR29QRoNRxseWrBQR6UYyX9X34Eh?filename=foo-pug.json";
+    string public constant PUG =
+        "ipfs://bafkreiaf7qaffyztytdd7o7zbejjp7nbykddc4qieflchlnnwlafhyn54e?filename=foo-pug.json";
 
     function run() external {
         address mostRecentlyDeployed = DevOpsTools.get_most_recent_deployment("BasicNft", block.chainid);
