@@ -7,6 +7,7 @@ DEFAULT_ZKSYNC_LOCAL_KEY := 0x7726827caac94a7f9e1b160f7ea819f172f7b6f9d2a97f992c
 
 # Default account name if none specified
 DEFAULT_ACCOUNT := dev
+DEFAULT_ANVIL_ACCOUNT := defaultKey
 
 all: clean remove install update build
 
@@ -36,7 +37,8 @@ anvil :; anvil -m 'test test test test test test test test test test test junk' 
 # Get account from args or use default
 ACCOUNT ?= $(DEFAULT_ACCOUNT)
 
-NETWORK_ARGS := --rpc-url http://localhost:8545 --private-key $(DEFAULT_ANVIL_KEY) --broadcast
+# NETWORK_ARGS := --rpc-url http://localhost:8545 --private-key $(DEFAULT_ANVIL_KEY) --broadcast
+NETWORK_ARGS := --rpc-url http://localhost:8545 --account $(DEFAULT_ANVIL_ACCOUNT) --broadcast
 
 ifeq ($(findstring --network sepolia,$(ARGS)),--network sepolia)
 	NETWORK_ARGS := --rpc-url $(SEPOLIA_RPC_URL) --account $(ACCOUNT) --broadcast --verify --etherscan-api-key $(ETHERSCAN_API_KEY) -vvvv
@@ -47,3 +49,12 @@ deploy:
 
 mint:
 	@forge script script/Interactions.s.sol:MintBasicNft $(NETWORK_ARGS)
+
+deployMoodNft:
+	@forge script script/DeployMoodNft.s.sol:DeployMoodNft $(NETWORK_ARGS)
+
+mintMoodNft:
+	@forge script script/Interactions.s.sol:MintMoodNft $(NETWORK_ARGS)
+
+flipMood:
+	@forge script script/Interactions.s.sol:FlipMoodOfMoodNft $(NETWORK_ARGS) -vvvv
